@@ -1,0 +1,40 @@
+{
+  "hyperparameters": {
+    "device": "Device to run training on (e.g., 'cpu', 'cuda'). Default is 'cuda'.",
+    "run_name": "Name for the training run, used for logging and saving outputs.",
+    "finetune_script_path": "Path to the external fine-tuning script if required by your environment.",
+    "validation_fraction": "Fraction of the training set to set aside for validation (0.0 to 1.0). Default is 0.2.",
+    "clean_after_training": "Bool. If True, removes checkpoints and temporary trajectory files after successful training.",
+    "load_model_path": "Path to a starting model checkpoint (.pth) to begin fine-tuning from.",
+    "save_checkpoint": "Bool. Whether to save intermediate checkpoints during training.",
+    "ckpt_interval": "Number of epochs between saving checkpoints.",
+    "cutoff": "Neighbor list cutoff distance (Angstrom).",
+    "threebody_cutoff": "Cutoff distance for three-body interactions if applicable.",
+    "epochs": "Total number of training epochs.",
+    "batch_size": "Number of structures per training batch.",
+    "learning_rate": "Initial learning rate for the optimizer.",
+    "step_size": "Period of learning rate decay (in epochs).",
+    "include_forces": "Bool. Whether to include force errors in the loss function.",
+    "include_stresses": "Bool. Whether to include stress errors in the loss function.",
+    "force_loss_ratio": "Weighting factor for forces in the total loss.",
+    "stress_loss_ratio": "Weighting factor for stresses in the total loss.",
+    "early_stop_patience": "Number of epochs to wait for improvement before stopping early.",
+    "seed": "Random seed for reproducibility.",
+    "re_normalize": "Bool. Whether to re-normalize the target data labels.",
+    "scale_key": "Key for scaling parameters in the model state dict.",
+    "shift_key": "Key for shift parameters in the model state dict.",
+    "init_scale": "Initial scaling value for the potential.",
+    "init_shift": "Initial energy shift value.",
+    "trainable_scale": "Bool. Whether the scale parameter is optimized during training.",
+    "trainable_shift": "Bool. Whether the shift parameter is optimized during training.",
+    "wandb": "Bool. Enable Weights & Biases logging.",
+    "wandb_api_key": "API key for W&B authentication.",
+    "wandb_project": "W&B project name for run organization."
+  },
+  "parameters_compute_properties": {
+    "device": "Device to run inference on ('cpu' or 'cuda'). GPU is highly recommended for deep learning models."
+  },
+  "trained_pot_files": {
+    "potential_file": "pot.pth - The PyTorch state dictionary containing the fine-tuned weights."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "hyperparameters": {
+    "mlip_bin": "Path to the mlip-2 binary.",
+    "untrained_pot_file_dir": "Directory with the untrained directory. It normally is `path/to/mlip-2/root/directory/untrained_mtps`.",
+    "mtp_level": "MTP level; only even numbers from 2 to 28",
+    "min_dist": "Minimum distance (in Angstrom) between two atoms to consider. I strongly suggest to determine it exactly (e.g. with mlipkit.mlip_models.utils.find_min_dist, or see parameter <up_mindist>).",
+    "max_dist": "Maximum distance (in Angstrom) to consider for the radial functions.",
+    "radial_basis_type": "Radial basis set. `RBChebyshev` is the most used one.",
+    "radial_basis_size": "How many radial functions to use.",
+    "ene_weight": "Weight for the energy in the fit. It will be normalized by the sum of weights of energy, forces and stress.",
+    "for_weight": "Weight for the forces in the fit. It will be normalized by the sum of weights of energy, forces and stress.",
+    "str_weight": "Weight for the stress tensor in the fit. It will be normalized by the sum of weights of energy, forces and stress.",
+    "sc_b_for": "`--scale_by_force` for the mlip-2 binary; If >0 then configurations near equilibrium (with roughtly force < <sc_b_for>) get more weight.",
+    "val_cfg": "Filename with configuration to validate.",
+    "max_iter": "Maximum number of iterations for the training process.",
+    "cur_pot_n": "Save potential on each iteration if not empty.",
+    "bfgs_tol": "The training stops if error dropped by a factor smaller than this over 50 BFGS iterations. Default=1e-3",
+    "weighting": "How to weight configuration wtih different sizes relative to each other. Default=vibrations. Other=molecules, structures.",
+    "init_par": "How to initialize parameters if a potential was not pre-fitted. Default is random. Other is same - this is when interaction of all species is the same (more accurate fit, but longer optimization).",
+    "skip_preinit": "Bool. Skip the 75 iterations done when parameters are not given.",
+    "up_mindist": "Bool. Update the mindist parameter with actual minimal interatomic distance in the training set.",
+    "bin_pref": "Whatever to write before the binary path when launching mlip-2 (e.g. `mpirun`)."
+  },
+  "parameters_compute_properties": {
+    "mlip_bin": "Path to the mlip-2 binary.",
+    "bin_pref": "Whatever to write before the binary path when launching mlip-2 (e.g. `mpirun`)."
+  },
+  "trained_pot_files": {
+    "potential_file": "pot.mtp - Output file .mtp; it is the only file needed."
+  }
+}
