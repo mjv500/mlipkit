@@ -232,7 +232,7 @@ class MTPModel(MlipModel):
         os.environ["ASE_LAMMPSRUN_COMMAND"] = f'{parameters["bin_pref"]} {parameters["lammps_bin"]}'
         calc = LAMMPS(pair_style=pair_style,
                     pair_coeff=pair_coeff,
-                    wdir='WTF_ASE')
+                    tmp_dir=str(self.get_tmp_dir()))
         atoms.calc = calc
         atoms.get_potential_energy()
         return atoms
@@ -263,7 +263,7 @@ class MTPModel(MlipModel):
         os.environ["ASE_LAMMPSRUN_COMMAND"] = f'{parameters["bin_pref"]} {parameters["lammps_bin"]}'
         calc = LAMMPS(pair_style=pair_style,
                     pair_coeff=pair_coeff,
-                    wdir='WTF_ASE')
+                    tmp_dir=str(self.get_tmp_dir()))
         for atom in atoms:
             atom.calc = calc
             atom.get_potential_energy()
