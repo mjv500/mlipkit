@@ -46,7 +46,8 @@ class MatterSimModel(MlipModel):
                                       'wandb',
                                       'wandb_api_key',
                                       'wandb_project',
-                                      'set_trained_pot_as_new_starting_point']
+                                      'set_trained_pot_as_new_starting_point',
+                                      'best_or_last_model']
 
     
     mandatory_parameters_compute_properties_names = []
@@ -109,6 +110,7 @@ class MatterSimModel(MlipModel):
         # note that setting them = None would not trigger the default value)
         self.hyperparameters['save_checkpoint'] = True # if False, it won't print the trained pot file
         self.hyperparameters.setdefault('set_trained_pot_as_new_starting_point', False)
+        self.hyperparameters.setdefaul('best_or_last_model', 'best')
         self.hyperparameters.setdefault('validation_fraction', 0.2)
         self.hyperparameters.setdefault('clean_after_training', True)
         self.hyperparameters.setdefault('shuffle_dataset', True)
@@ -119,6 +121,9 @@ class MatterSimModel(MlipModel):
         if n_validation_confs == 0:
             n_validation_confs = 1
         #train_set_copy = deepcopy(train_set_copy)
+        
+        if self.hyperparameters['best_or_last_model'] not in ['best', 'last']:
+            raise ValueError('`best_or_last_model` must be either `best` or `last`!')
         
         indices = list(range(len(self.train_set)))
 
@@ -144,14 +149,21 @@ class MatterSimModel(MlipModel):
         target_pot = self.get_training_dir().joinpath(self.trained_pot_files['potential_file']).resolve() # save it inside training_dir; it will be copied into trained_pot_dir later
         shutil.copy(src_pot, target_pot) # this is the name that will be looked for after the training, to store the trained model in the trained_pot_dir
         # clean
+        if self.hyperparameters['best_or_last_model'] == 'best':
+            keep = 'best_model.pth'
+            throw = 'last_model.pth'
+        else:
+            keep = 'last_model.pth'
+            throw = 'best_model.pth'
         if self.hyperparameters['clean_after_training'] == True:
             [x.unlink(missing_ok=True) for x in self.get_training_dir().glob('ckpt*')]
-            self.get_training_dir().joinpath('best_model.pth').unlink(missing_ok=True)
+            self.get_training_dir().joinpath(throw).unlink(missing_ok=True)
             self.get_training_dir().joinpath('Train_set.traj').unlink(missing_ok=True)
             self.get_training_dir().joinpath('Test_set.traj').unlink(missing_ok=True)
             
         # must return True for success and False otherwise
-        if self.get_training_dir().joinpath('last_model.pth').is_file():
+        
+        if self.get_training_dir().joinpath(keep).is_file():
             success = True
         else:
             success = False
